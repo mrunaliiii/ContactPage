@@ -1,6 +1,7 @@
 // src/ContactForm.js
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import './ContactForm.css';
+import emailjs from '@emailjs/browser';
 
 const ContactForm = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +9,8 @@ const ContactForm = () => {
     email: '',
     message: ''
   });
+
+  const form = useRef();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -20,15 +23,30 @@ const ContactForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log('Form Data Submitted: ', formData);
-    // Here you can add the logic to send the form data to a server or an API.
     // Reset the form after submission
     setFormData({ name: '', email: '', message: '' });
+    sendEmail(e); // Call sendEmail function
+  };
+
+  const sendEmail = (e) => {
+    e.preventDefault();
+
+    emailjs
+      .sendForm('service_nlcts5a', 'template_h7gxcoq', form.current, 'AANlvKCgVlQztiKAN')
+      .then(
+        () => {
+          console.log('SUCCESS!');
+        },
+        (error) => {
+          console.log('FAILED...', error.text);
+        }
+      );
   };
 
   return (
     <div className="contact-form-container">
       <h1>Contact us</h1>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} ref={form}>
         <div>
           <label htmlFor="name">Name:</label>
           <input
