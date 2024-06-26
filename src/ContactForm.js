@@ -32,7 +32,7 @@ const ContactForm = () => {
     e.preventDefault();
 
     emailjs
-      .sendForm('service_nlcts5a', 'template_h7gxcoq', form.current, 'AANlvKCgVlQztiKAN')
+      .sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_USER_ID')
       .then(
         () => {
           console.log('SUCCESS!');
